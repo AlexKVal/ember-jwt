@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
-const { RSVP, isEmpty, run } = Ember.RSVP;
+const { RSVP, isEmpty, run } = Ember;
 
 export default BaseAuthenticator.extend({
   tokenEndpoint: 'http://localhost:3001/sessions/create',
@@ -16,23 +16,17 @@ export default BaseAuthenticator.extend({
     });
   },
 
-  authenticate(options) {
+  authenticate(identification, password) {
     return new RSVP.Promise((resolve, reject) => {
       Ember.$.ajax({
-        url: this.tokenEndpoint,
+        url: this.get('tokenEndpoint'),
         type: 'POST',
-        data: JSON.strinfigy({
-          username: options.identification,
-          password: options.password
-        }),
+        data: JSON.stringify({ username: identification, password }),
         contentType: 'application/json;charset=utf-8',
         dataType: 'json'
       })
-      .then(({response}) => {
-        run(() => resolve({ token: response.id_token }));
-      }, (xhr) => {
-        run(() => reject(xhr.responseJSON || xhr.responseText));
-      });
+      .then((response) => run(() => resolve({ token: response.id_token })),
+      (xhr) => run(() => reject(xhr.responseJSON || xhr.responseText)));
     });
   },
 
