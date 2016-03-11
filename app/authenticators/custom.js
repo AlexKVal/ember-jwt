@@ -1,13 +1,13 @@
 import Ember from 'ember';
-import Base from 'ember-simple-auth/authenticators/base';
+import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
-const {Promise, isEmpty, run} = Ember.RSVP;
+const { RSVP, isEmpty, run } = Ember.RSVP;
 
-export default Base.extend({
+export default BaseAuthenticator.extend({
   tokenEndpoint: 'http://localhost:3001/sessions/create',
 
   restore(data) {
-    return new Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve, reject) => {
       if (!isEmpty(data.token)) {
         resolve(data);
       } else {
@@ -17,7 +17,7 @@ export default Base.extend({
   },
 
   authenticate(options) {
-    return new Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve, reject) => {
       Ember.$.ajax({
         url: this.tokenEndpoint,
         type: 'POST',
@@ -31,13 +31,13 @@ export default Base.extend({
       .then(({response}) => {
         run(() => resolve({ token: response.id_token }));
       }, (xhr) => {
-        run(() => reject(xhr.responseText));
+        run(() => reject(xhr.responseJSON || xhr.responseText));
       });
     });
   },
 
   invalidate() {
     console.log('invalidate...');
-    return Promise.resolve();
+    return RSVP.Promise.resolve();
   }
 });
