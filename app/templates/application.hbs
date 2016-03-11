@@ -1,5 +1,12 @@
+<ul>
+  <li>{{#link-to 'index'}}Home{{/link-to}}</li>
+  <li>{{#link-to 'protected'}}Protected{{/link-to}}</li>
+</ul>
+
 {{#if session.isAuthenticated}}
-  <p><a href="#" {{action 'invalidateSession'}}>Logout</a></p>
+  <p><a href {{action 'logout'}}>Logout</a></p>
 {{else}}
-  <p><a href="#" {{action 'sessionRequiresAuthentication'}}>Login</a></p>
+  <p><a href {{action 'login'}}>Login</a></p>
 {{/if}}
+
+{{outlet}}
