@@ -1,13 +1,13 @@
 import Ember from 'ember';
-import Base from 'ember-simple-auth/authorizers/base';
+import BaseAuthorizer from 'ember-simple-auth/authorizers/base';
 
-const {isEmpty} = Ember;
+const { isEmpty } = Ember;
 
-export default Base.extend({
-  authorize(jqXHR) {
-    const accessToken = this.get('session.content.secure.token');
-    if (this.get('session.isAuthenticated') && !isEmpty(accessToken)) {
-      jqXHR.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+export default BaseAuthorizer.extend({
+  authorize(data, block) {
+    const accessToken = data['access_token'];
+    if (!isEmpty(accessToken)) {
+      block('Authorization', `Bearer ${accessToken}`);
     }
   }
 });
