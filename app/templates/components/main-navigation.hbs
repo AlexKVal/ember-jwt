@@ -1,0 +1,18 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav navbar-left">
+      {{#link-to 'index' tagName='li'}}
+        <a href>Home</a>
+      {{/link-to}}
+      {{#link-to 'protected' tagName='li'}}
+        <a href>Protected</a>
+      {{/link-to}}
+    </ul>
+
+    {{#if session.isAuthenticated}}
+      <a {{action 'logout'}} class="btn btn-danger navbar-btn navbar-right">Logout</a>
+    {{else}}
+      <a {{action 'login'}} class="btn btn-success navbar-btn navbar-right">Login</a>
+    {{/if}}
+  </div>
+</nav>
