@@ -1,2 +1,6 @@
 <h1>This is a protected content</h1>
+<p>Quotes:</p>
+{{#each model as |quote|}}
+  <p>{{quote.quote}}</p>
+{{/each}}
 {{outlet}}
