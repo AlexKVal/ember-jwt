@@ -1,3 +1,8 @@
+{{#if errorMessage}}
+  <div class="alert alert-danger">
+    <strong>Login failed:</strong> {{errorMessage}}
+  </div>
+{{/if}}
 <form {{action 'authenticate' on='submit'}}>
   <div class="form-group">
     <label for="identification">Login</label>
@@ -9,8 +14,3 @@
   </div>
   <button type="submit" class="btn btn-default">Login</button>
 </form>
-{{#if errorMessage}}
-  <div class="alert alert-danger">
-    <strong>Login failed:</strong> {{errorMessage}}
-  </div>
-{{/if}}
