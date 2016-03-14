@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
+import ENV from '../config/environment';
 
 const { RSVP: { Promise }, isEmpty, run, $ } = Ember;
 
 export default BaseAuthenticator.extend({
-  tokenEndpoint: 'http://localhost:3001/sessions/create',
-
   restore(data) {
     if (!isEmpty(data.token)) {
       return Promise.resolve(data);
@@ -14,23 +13,24 @@ export default BaseAuthenticator.extend({
     }
   },
 
-  authenticate(identification, password) {
+  authenticate(credentials) {
     return new Promise((resolve, reject) => {
       $.ajax({
-        url: this.get('tokenEndpoint'),
+        url: ENV.JWT.tokenEndpoint || '/auth',
         type: 'POST',
-        data: JSON.stringify({ username: identification, password }),
-        contentType: 'application/json;charset=utf-8',
-        dataType: 'json'
+        dataType: 'json',
+        data: JSON.stringify(credentials),
+        contentType: 'application/json;charset=utf-8'
       })
       .then(
-        (response) => run(null, resolve, { token: response.id_token }),
+        (response) => run(null, resolve, response),
         (xhr) => run(null, reject, xhr.responseJSON || xhr.responseText)
+        // TODO error reply could be one of BadRequestError NotFoundError UnauthorizedError and mongoose error
       );
     });
   },
 
-  invalidate() {
+  invalidate() { // TODO
     console.log('invalidate...');
     return Promise.resolve();
   }
