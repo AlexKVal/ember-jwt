@@ -20,7 +20,7 @@ export default BaseAuthenticator.extend({
         type: 'POST',
         dataType: 'json',
         data: JSON.stringify(credentials),
-        contentType: 'application/json;charset=utf-8'
+        contentType: 'application/vnd.api+json'
       })
       .then(
         (response) => run(null, resolve, response),
