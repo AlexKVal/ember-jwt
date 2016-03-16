@@ -10,6 +10,7 @@ Router.map(function() {
 
   this.route('accounts', function() {
     this.route('new');
+    this.route('edit', { path: ':account_id/edit' });
   });
 });
 

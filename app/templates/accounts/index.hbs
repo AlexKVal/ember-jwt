@@ -11,7 +11,7 @@
     <tbody>
       {{#each model as |account|}}
       <tr>
-        <td>{{account.name}}</td>
+        <td>{{#link-to 'accounts.edit' account}}{{account.name}}{{/link-to}}</td>
         <td>{{account.id}}</td>
         <td>{{account.camelCasedAttribute}}</td>
       </tr>
