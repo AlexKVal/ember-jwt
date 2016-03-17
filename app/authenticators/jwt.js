@@ -34,8 +34,7 @@ export default BaseAuthenticator.extend({
     });
   },
 
-  invalidate() { // TODO
-    console.log('invalidate...');
+  invalidate() {
     return Promise.resolve();
   }
 });
